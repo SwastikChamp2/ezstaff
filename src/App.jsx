@@ -1,14 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import "aos/dist/aos.css";
+import './index.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom';
+// All pages
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import About from './pages/About';
+
+import { useDocTitle } from './hooks/CustomHook';
+import ScrollToTop from './hooks/ScrollToTop';
+
 
 function App() {
+  useEffect(() => {
+    const aos_init = () => {
+      AOS.init({
+        once: true,
+        duration: 1000,
+        easing: 'ease-out-cubic',
+      });
+    }
+
+    window.addEventListener('load', () => {
+      aos_init();
+    });
+  }, []);
+
   return (
-    <main className="flex justify-center gap-4 flex-col min-h-screen">
-      <h1 className="text-3xl text-center font-bold underline text-red-500">React & Tailwind CSS Starter Pack</h1>
-      <p className="text-center text-xl">This is a starter pack for React & Tailwind CSS projects</p>
-      <img src="https://bit.ly/3wsmzTy" alt="meme" className="mx-auto" />
-    </main>
+    <>
+      <Router>
+        <ScrollToTop>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </ScrollToTop>
+      </Router>
+    </>
   );
 }
 
+
 export default App;
+

@@ -14,6 +14,7 @@ import About from './pages/About';
 
 import { useDocTitle } from './hooks/CustomHook';
 import ScrollToTop from './hooks/ScrollToTop';
+import HomeDashboard from './pages/HomeDashboard';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<HomeDashboard />} />
           </Routes>
         </ScrollToTop>
       </Router>

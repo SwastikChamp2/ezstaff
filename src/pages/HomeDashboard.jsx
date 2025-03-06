@@ -32,7 +32,7 @@ import brandLogo5 from '../assets/images/svg/brand-logo-5.svg';
 import avatar13 from '../assets/images/avatar/avatar-13.jpg';
 import avatar14 from '../assets/images/avatar/avatar-14.jpg';
 import avatar15 from '../assets/images/avatar/avatar-15.jpg';
-import SunburstChart from '../components/Chart/Chart';
+import SunburstChart from '../components/Chart/SunburstChart';
 
 
 

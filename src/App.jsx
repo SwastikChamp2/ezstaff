@@ -21,6 +21,7 @@ import ProfileEdit from './pages/ProfileEdit';
 import Signin from './Auth/Signin';
 import Signup from './Auth/Signup';
 import ForgotPassword from './Auth/ForgotPassword';
+import EmailSent from './Auth/EmailSent';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
           <Routes>
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/email-confirmation" element={<EmailSent />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />

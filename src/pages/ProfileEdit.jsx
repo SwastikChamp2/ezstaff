@@ -14,11 +14,11 @@ const ProfileEdit = () => {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const [experiences, setExperiences] = useState([
-        { designation: '', years: '', type: 'Year' }
+        { designation: '', years: '', type: 'Year', companyLogo: '' }
     ]);
 
     const [educations, setEducations] = useState([
-        { instituteName: '', educationType: '' }
+        { instituteName: '', educationType: '', instituteLogo: '' }
     ]);
 
     const addMoreExperience = () => {
@@ -214,6 +214,7 @@ const ProfileEdit = () => {
                                         <form>
                                             {experiences.map((exp, index) => (
                                                 <div key={index} className="mb-4">
+
                                                     <div className="row mb-3">
                                                         <label className="col-sm-4 col-form-label form-label">Designation</label>
                                                         <div className="col-md-8 col-12">
@@ -240,6 +241,7 @@ const ProfileEdit = () => {
                                                                 onChange={(e) => handleExperienceChange(index, 'years', e.target.value)}
                                                             />
                                                         </div>
+
                                                         <div className="col-md-2 col-12">
                                                             <select
                                                                 className="form-select"
@@ -250,7 +252,22 @@ const ProfileEdit = () => {
                                                                 <option value="Month">Month</option>
                                                             </select>
                                                         </div>
+
                                                     </div>
+
+                                                    <div className="row align-items-center mt-3">
+                                                        <label className="col-sm-4 col-form-label form-label">Company Logo URL</label>
+                                                        <div className="col-md-8 col-12">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                placeholder="Enter company logo URL"
+                                                                value={exp.companyLogo}
+                                                                onChange={(e) => handleExperienceChange(index, 'companyLogo', e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </div>
+
                                                     {index !== experiences.length - 1 && <hr className="my-4" />}
                                                 </div>
                                             ))}
@@ -320,7 +337,22 @@ const ProfileEdit = () => {
                                                             />
                                                         </div>
                                                     </div>
+
+                                                    <div className="row align-items-center mt-3">
+                                                        <label className="col-sm-4 col-form-label form-label">Institute Logo URL</label>
+                                                        <div className="col-md-8 col-12">
+                                                            <input
+                                                                type="text"
+                                                                className="form-control"
+                                                                placeholder="Enter institute logo URL"
+                                                                value={edu.instituteLogo}
+                                                                onChange={(e) => handleEducationChange(index, 'instituteLogo', e.target.value)}
+                                                            />
+                                                        </div>
+                                                    </div>
+
                                                     {index !== educations.length - 1 && <hr className="my-4" />}
+
                                                 </div>
                                             ))}
 

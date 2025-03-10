@@ -11,6 +11,7 @@ import {
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import ProtectedRoute from './Routing/ProtectedRoute';
 
 import { useDocTitle } from './hooks/CustomHook';
 import ScrollToTop from './hooks/ScrollToTop';
@@ -51,10 +52,26 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<HomeDashboard />} />
-            <Route path="/company-dashboard" element={<CompanyDashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile-edit" element={<ProfileEdit />} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <HomeDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/company-dashboard" element={
+              <ProtectedRoute>
+                <CompanyDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile-edit" element={
+              <ProtectedRoute>
+                <ProfileEdit />
+              </ProtectedRoute>
+            } />
           </Routes>
         </ScrollToTop>
       </Router>

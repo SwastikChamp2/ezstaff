@@ -1,4 +1,6 @@
 import React from 'react';
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaPowerOff } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
@@ -7,6 +9,15 @@ import avatar11 from "../../assets/images/avatar/avatar-11.jpg";
 
 const Header = ({ showDropdown, setShowDropdown, title }) => {
     const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/signin"); // Redirect to signin page after logout
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
+    };
 
     return (
         <div className="header">
@@ -96,11 +107,11 @@ const Header = ({ showDropdown, setShowDropdown, title }) => {
                                             </a>
                                         </li>
                                         <li>
-                                            <a className="dropdown-item d-flex align-items-center cursor-pointer" >
+                                            <a className="dropdown-item d-flex align-items-center cursor-pointer" onClick={handleLogout} >
                                                 <span className='me-2'>
                                                     <FaPowerOff />
                                                 </span>
-                                                Sign Out
+                                                Log Out
                                             </a>
                                         </li>
                                     </ul>

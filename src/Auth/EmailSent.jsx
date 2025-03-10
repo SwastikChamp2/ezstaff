@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthRedirect from "../Routing/AuthRedirect";
 import '../CSS/main.css';
 import logo2 from '../assets/images/brand/logo/logo-2.svg';
 import Header from '../components/Header/Header';
@@ -14,8 +15,7 @@ const EmailSent = () => {
     return (
         <>
 
-
-
+            <AuthRedirect />
             <main className="container d-flex flex-column">
                 <div className="row align-items-center justify-content-center g-0 min-vh-100">
                     <div className="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">

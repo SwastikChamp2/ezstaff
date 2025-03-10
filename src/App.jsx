@@ -18,6 +18,9 @@ import HomeDashboard from './pages/HomeDashboard';
 import CompanyDashboard from './pages/CompanyDashboard';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
+import Signin from './Auth/Signin';
+import Signup from './Auth/Signup';
+import ForgotPassword from './Auth/ForgotPassword';
 
 
 function App() {
@@ -40,6 +43,9 @@ function App() {
       <Router>
         <ScrollToTop>
           <Routes>
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />

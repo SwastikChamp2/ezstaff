@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import logo2 from "../assets/images/brand/logo/logo-2.svg";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
+import { db } from "../firebase";  // Make sure db is exported from your firebase config
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import "../CSS/main.css";
-import logo2 from "../assets/images/brand/logo/logo-2.svg";
+
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -27,7 +30,7 @@ const Signup = () => {
     };
 
     // Handle form submission
-    const handleSubmit = async (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         setError(null);
 
@@ -48,9 +51,43 @@ const Signup = () => {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             await updateProfile(userCredential.user, { displayName: userId });
+
+            await setDoc(doc(db, "users", email), {
+                createdOn: serverTimestamp(),
+                firstName: "",
+                lastName: "",
+                email: email,
+                userID: userId,
+                briefBio: "",
+                fullBio: "",
+                profilePic: "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg",
+                mobile: "",
+                dateOfBirth: serverTimestamp(),
+                location: "",
+                designation: "",
+                // Additional fields from profile
+                coverImage: "",
+                socialLinks: {
+                    twitter: "",
+                    facebook: "",
+                    instagram: "",
+                    linkedin: "",
+                    github: ""
+                },
+                skills: [],
+                education: [],
+                experience: [],
+                projects: [],
+                certificates: [],
+                languages: [],
+                interests: []
+            });
+
+
             await sendEmailVerification(user);
 
             setSuccess("Verification email sent. Please check your inbox.");
+            navigate("/email-confirmation")
         } catch (error) {
             setError(error.message);
         } finally {
@@ -73,7 +110,7 @@ const Signup = () => {
                             {error && <div className="alert alert-danger">{error}</div>}
                             {success && <div className="alert alert-success">{success}</div>}
                             {/* Signup Form */}
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSignup}>
                                 <div className="mb-3">
                                     <label htmlFor="userId" className="form-label">User ID</label>
                                     <input
@@ -164,7 +201,7 @@ const Signup = () => {
                                 {/* Submit Button */}
                                 <div className="d-grid">
                                     <button type="submit" className="btn btn-primary" disabled={loading}>
-                                        {loading ? "Signing Up..." : "Create Free Account"}
+                                        {loading ? "Signing Up..." : "Create Account"}
                                     </button>
                                 </div>
                                 {/* Links */}

@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from "firebase/auth";
 import "../CSS/main.css";
 import logo2 from "../assets/images/brand/logo/logo-2.svg";
 
 const Signup = () => {
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [formData, setFormData] = useState({
         userId: "",
         email: "",
         password: "",
         confirmPassword: "",
     });
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     // Handle input changes
     const handleChange = (e) => {
@@ -41,8 +46,11 @@ const Signup = () => {
         try {
             setLoading(true);
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
             await updateProfile(userCredential.user, { displayName: userId });
-            navigate("/email-confirmation");
+            await sendEmailVerification(user);
+
+            setSuccess("Verification email sent. Please check your inbox.");
         } catch (error) {
             setError(error.message);
         } finally {
@@ -63,6 +71,7 @@ const Signup = () => {
                             </div>
                             {/* Error Message */}
                             {error && <div className="alert alert-danger">{error}</div>}
+                            {success && <div className="alert alert-success">{success}</div>}
                             {/* Signup Form */}
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
@@ -93,29 +102,57 @@ const Signup = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="password" className="form-label">Password</label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        name="password"
-                                        className="form-control"
-                                        placeholder="********"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                    <div className="position-relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            id="password"
+                                            name="password"
+                                            className="form-control pe-5"
+                                            placeholder="********"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn position-absolute top-50 end-0 translate-middle-y"
+                                            style={{
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                                padding: '0.375rem 0.75rem'
+                                            }}
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                                    <input
-                                        type="password"
-                                        id="confirmPassword"
-                                        name="confirmPassword"
-                                        className="form-control"
-                                        placeholder="********"
-                                        value={formData.confirmPassword}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                    <div className="position-relative">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            id="confirmPassword"
+                                            name="confirmPassword"
+                                            className="form-control pe-5"
+                                            placeholder="********"
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn position-absolute top-50 end-0 translate-middle-y"
+                                            style={{
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                                padding: '0.375rem 0.75rem'
+                                            }}
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        >
+                                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
                                 {/* Terms Agreement */}
                                 <div className="mb-3 form-check">

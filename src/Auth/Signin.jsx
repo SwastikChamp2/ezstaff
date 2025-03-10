@@ -4,6 +4,7 @@ import { auth } from "../firebase"; // Import Firebase auth
 import { signInWithEmailAndPassword } from "firebase/auth";
 import "../CSS/main.css";
 import logo2 from "../assets/images/brand/logo/logo-2.svg";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signin = () => {
     const navigate = useNavigate();
@@ -11,17 +12,27 @@ const Signin = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSignin = async (e) => {
         e.preventDefault();
         setError("");
         setLoading(true);
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate("/dashboard"); // Redirect to the dashboard on success
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            if (!user.emailVerified) {
+                setError("Email not verified. Please check your inbox.");
+                setLoading(false);
+                return;
+            }
+
+            navigate("/dashboard");
         } catch (err) {
-            setError("Invalid email or password. Please try again.");
+            setError("Invalid email or password");
         }
 
         setLoading(false);
@@ -42,7 +53,7 @@ const Signin = () => {
                             {/* Error Message */}
                             {error && <div className="alert alert-danger">{error}</div>}
                             {/* Form */}
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSignin}>
                                 {/* Email */}
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">
@@ -64,16 +75,30 @@ const Signin = () => {
                                     <label htmlFor="password" className="form-label">
                                         Password
                                     </label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        className="form-control"
-                                        name="password"
-                                        placeholder="********"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
+                                    <div className="position-relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            id="password"
+                                            className="form-control pe-5"
+                                            name="password"
+                                            placeholder="********"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn position-absolute top-50 end-0 translate-middle-y"
+                                            style={{
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                                padding: '0.375rem 0.75rem'
+                                            }}
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
                                 {/* Remember Me */}
                                 <div className="d-flex justify-content-between align-items-center mb-4">

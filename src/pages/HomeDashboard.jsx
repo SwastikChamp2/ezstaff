@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/main.css';
 
 //Icons Import
@@ -41,6 +42,8 @@ import useSidebarToggle from '../hooks/SidebarToggle';
 
 const HomeDashboard = () => {
 
+    const navigate = useNavigate();
+
     const [showDropdown, setShowDropdown] = useState(false);
     useSidebarToggle();
 
@@ -48,7 +51,7 @@ const HomeDashboard = () => {
     return (
         <>
             <main id="main-wrapper" className="main-wrapper">
-                <Header showDropdown={showDropdown} setShowDropdown={setShowDropdown} />
+                <Header title="Home" showDropdown={showDropdown} setShowDropdown={setShowDropdown} />
                 {/* navbar vertical */}
                 <Sidebar />
                 {/* Page content */}
@@ -160,7 +163,7 @@ const HomeDashboard = () => {
                                             {/* heading */}
                                             <div className="d-flex justify-content-between align-items-center mb-3">
                                                 <div>
-                                                    <h4 className="mb-0">Consultant</h4>
+                                                    <h4 className="mb-0">Consultants</h4>
                                                 </div>
                                                 <div className="icon-shape icon-md bg-primary-soft text-primary rounded-2">
                                                     <BsBullseye size={'20px'} />
@@ -209,7 +212,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Allure Design Limited</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Allure Design Limited</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -249,7 +252,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Semno Technologies</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Semno Technologies</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -289,7 +292,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Capexo Tech Private Ltd</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Capexo Tech Private Ltd</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -329,7 +332,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Vector.io</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Vector.io</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -369,7 +372,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Collabin Consultancy</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Collabin Consultancy</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -409,7 +412,7 @@ const HomeDashboard = () => {
                                                                         </div>
                                                                     </div>
                                                                     <div className="ms-3 lh-1">
-                                                                        <h5 className="mb-1"><a href="#!" className="text-inherit">Remini Consultants</a></h5>
+                                                                        <h5 className="mb-1"><a onClick={() => { navigate("/company-dashboard") }} className="text-inherit cursor-pointer">Remini Consultants</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </td>

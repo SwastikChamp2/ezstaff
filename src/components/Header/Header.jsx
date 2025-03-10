@@ -5,7 +5,7 @@ import { MdModeEdit } from "react-icons/md";
 import logo2 from "../../assets/images/brand/logo/logo-2.svg";
 import avatar11 from "../../assets/images/avatar/avatar-11.jpg";
 
-const Header = ({ showDropdown, setShowDropdown }) => {
+const Header = ({ showDropdown, setShowDropdown, title }) => {
     const navigate = useNavigate();
 
     return (
@@ -16,7 +16,7 @@ const Header = ({ showDropdown, setShowDropdown }) => {
                         <img src={logo2} alt="Logo-image" />
                     </a>
                     <a className="nav-link has-arrow d-flex align-items-center d-none d-md-flex" href="#!" style={{ fontSize: "1.2rem" }}>
-                        <span>Dashboard</span>
+                        <span>{title}</span>
                     </a>
                     <a
                         id="nav-toggle"
@@ -80,7 +80,7 @@ const Header = ({ showDropdown, setShowDropdown }) => {
                                     </div>
                                     <ul className="list-unstyled">
                                         <li>
-                                            <a className="dropdown-item d-flex align-items-center" onClick={() => navigate('/profile')}>
+                                            <a className="dropdown-item d-flex align-items-center cursor-pointer" onClick={() => navigate('/profile')}>
                                                 <span className='me-2'>
                                                     <FaUser />
                                                 </span>

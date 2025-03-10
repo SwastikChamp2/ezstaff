@@ -39,7 +39,7 @@ const CompanyDashboard = () => {
     return (
         <>
             <main id="main-wrapper" className="main-wrapper">
-                <Header showDropdown={showDropdown} setShowDropdown={setShowDropdown} />
+                <Header title="Company" showDropdown={showDropdown} setShowDropdown={setShowDropdown} />
 
                 <Sidebar />
                 {/* Page Content */}

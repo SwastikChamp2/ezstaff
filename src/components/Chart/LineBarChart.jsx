@@ -16,7 +16,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         return (
             <div className="bg-white p-2 border rounded shadow">
                 <p className="font-semibold">{label}</p>
-                <p>✅ Completed: {payload[0].value}</p>
+                <p>✅ Submitted: {payload[0].value}</p>
                 <p>🔵 New: {payload[1].value}</p>
             </div>
         );

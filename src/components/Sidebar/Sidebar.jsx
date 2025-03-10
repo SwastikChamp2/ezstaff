@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MdHome } from "react-icons/md";
 import { HiUserGroup } from "react-icons/hi2";
 import { FaUserTie, FaUser } from "react-icons/fa";
@@ -6,6 +7,9 @@ import { AiOutlineFileText } from "react-icons/ai";
 import logo2 from "../../assets/images/brand/logo/logo-2.svg";
 
 const Sidebar = () => {
+
+    const navigate = useNavigate();
+
     return (
         <div className="navbar-vertical navbar nav-dashboard">
             <div className="h-100" data-simplebar="">
@@ -17,7 +21,7 @@ const Sidebar = () => {
                 </a>
                 <ul className="navbar-nav flex-column" id="sideNavbar">
                     <li className="nav-item">
-                        <a className="nav-link has-arrow d-flex align-items-center" href="#!" style={{ fontSize: "1.2rem" }}>
+                        <a className="nav-link has-arrow d-flex align-items-center cursor-pointer" onClick={() => { navigate("/dashboard") }} style={{ fontSize: "1.2rem" }}>
                             <span className="nav-icon me-4 icon-xxs mb-3">
                                 <MdHome />
                             </span>
@@ -26,7 +30,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link has-arrow d-flex align-items-center" href="#!" style={{ fontSize: "1.2rem" }}>
+                        <a className="nav-link has-arrow d-flex align-items-center cursor-pointer" href="#!" style={{ fontSize: "1.2rem" }}>
                             <span className="nav-icon me-4 icon-xxs mb-3">
                                 <AiOutlineFileText />
                             </span>
@@ -35,7 +39,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link has-arrow d-flex align-items-center" href="#!" style={{ fontSize: "1.2rem" }}>
+                        <a className="nav-link has-arrow d-flex align-items-center cursor-pointer" href="#!" style={{ fontSize: "1.2rem" }}>
                             <span className="nav-icon me-4 icon-xxs mb-3">
                                 <HiUserGroup />
                             </span>
@@ -44,7 +48,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link has-arrow d-flex align-items-center" href="#!" style={{ fontSize: "1.2rem" }}>
+                        <a className="nav-link has-arrow d-flex align-items-center cursor-pointer" href="#!" style={{ fontSize: "1.2rem" }}>
                             <span className="nav-icon me-4 icon-xxs mb-3">
                                 <FaUserTie />
                             </span>
@@ -53,7 +57,7 @@ const Sidebar = () => {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link has-arrow d-flex align-items-center" href="#!" style={{ fontSize: "1.2rem" }}>
+                        <a className="nav-link has-arrow d-flex align-items-center cursor-pointer" href="#!" style={{ fontSize: "1.2rem" }}>
                             <span className="nav-icon me-4 icon-xxs mb-3">
                                 <FaUser />
                             </span>

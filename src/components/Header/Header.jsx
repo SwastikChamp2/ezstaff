@@ -88,7 +88,7 @@ const Header = ({ showDropdown, setShowDropdown, title }) => {
                                             </a>
                                         </li>
                                         <li>
-                                            <a className="dropdown-item d-flex align-items-center cursor-pointer" >
+                                            <a className="dropdown-item d-flex align-items-center cursor-pointer" onClick={() => navigate('/profile-edit')} >
                                                 <span className='me-2'>
                                                     <MdModeEdit />
                                                 </span>

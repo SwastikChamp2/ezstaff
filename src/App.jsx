@@ -17,6 +17,7 @@ import ScrollToTop from './hooks/ScrollToTop';
 import HomeDashboard from './pages/HomeDashboard';
 import CompanyDashboard from './pages/CompanyDashboard';
 import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/dashboard" element={<HomeDashboard />} />
             <Route path="/company-dashboard" element={<CompanyDashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/profile-edit" element={<ProfileEdit />} />
           </Routes>
         </ScrollToTop>
       </Router>

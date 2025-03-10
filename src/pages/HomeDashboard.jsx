@@ -1130,7 +1130,7 @@ const HomeDashboard = () => {
                                         </div>
                                         <div className="card-body">
                                             {/* chart  */}
-                                            <div className="mb-6">
+                                            <div className="mb-6 d-flex justify-content-center">
                                                 <SunburstChart />
                                             </div>
                                             {/* icon with content  */}

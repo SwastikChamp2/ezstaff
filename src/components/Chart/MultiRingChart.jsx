@@ -48,9 +48,9 @@ const MultiRingChart = () => {
     return (
         <RadialBarChart
             width={240}
-            height={260}
+            height={280}
             cx="50%"
-            cy="46%"
+            cy="42%"
             innerRadius="70%"
             outerRadius="110%"
             barSize={8}
@@ -71,7 +71,7 @@ const MultiRingChart = () => {
                 })}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend verticalAlign="bottom" height={10} />
+            <Legend verticalAlign="bottom" height={30} />
         </RadialBarChart>
     );
 };

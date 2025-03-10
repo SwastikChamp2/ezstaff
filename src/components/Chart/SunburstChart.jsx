@@ -81,7 +81,7 @@ const data = {
 
 const SunburstChart = () => {
     return (
-        <div style={{ height: 300, width: 300, marginBottom: 100 }}>
+        <div style={{ height: 300, width: 300, marginBottom: 50 }}>
             <ResponsiveSunburst
                 data={data}
                 margin={{ top: 10, right: 10, bottom: 10, left: 10 }}

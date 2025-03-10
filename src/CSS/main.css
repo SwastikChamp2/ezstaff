@@ -5837,6 +5837,14 @@ fieldset:disabled .btn {
     }
 }
 
+@media (max-width: 768px) {
+    .top-navbar {
+        width: 100% !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+}
+
 .navbar-toggler:hover {
     text-decoration: none
 }
@@ -29128,9 +29136,10 @@ fieldset:disabled .btn {
 }
 
 .navbar-vertical .navbar-nav .nav-icon {
-    font-size: .875rem;
+    font-size: 1.5rem;
     opacity: .6;
-    transition: all .5s
+    transition: all .5s;
+
 }
 
 .navbar-vertical .navbar-nav .sub-nav-icon {
@@ -29492,6 +29501,12 @@ fieldset:disabled .btn {
     display: none
 }
 
+@media (min-width:768px) {
+    #nav-toggle {
+        opacity: 0;
+    }
+}
+
 [data-layout=horizontal] .header .navbar-brand {
     display: block !important
 }
@@ -29564,7 +29579,7 @@ fieldset:disabled .btn {
     left: 0
 }
 
-@media (max-width:576px) {
+@media (max-width:768px) {
     #app-content {
         margin-left: 0
     }
@@ -29621,7 +29636,7 @@ fieldset:disabled .btn {
     padding: .875rem 1.25rem
 }
 
-@media (max-width:576px) {
+@media (max-width:768px) {
     .nav-line-bottom .nav-item .nav-link {
         padding: .8rem
     }
@@ -30003,7 +30018,8 @@ a {
     height: 30%;
     position: absolute;
     right: 5%;
-    width: 30%
+    width: 30%;
+    display: none;
 }
 
 .avatar-xxl.avatar-indicators:before {
@@ -30318,6 +30334,11 @@ a {
     --dashui-btn-padding-x: 0.5rem;
     --dashui-btn-font-size: 0.5rem;
     --dashui-btn-border-radius: var(--dashui-border-radius-sm)
+}
+
+.cover-banner-profile {
+    background: url("../assets/images/background/profile-cover.jpg") no-repeat;
+    background-size: cover;
 }
 
 .dropdown-menu {
@@ -35535,6 +35556,16 @@ span.flatpickr-weekday {
     margin: 0 5px;
     padding: 0;
     width: 9px
+}
+
+.nav-close .navbar-vertical {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-vertical {
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
 }
 
 .bs-stepper .step-trigger {

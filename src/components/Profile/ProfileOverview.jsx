@@ -1,58 +1,123 @@
-import React from 'react';
-
-// Image Imports
-import logo2 from '../../assets/images/brand/logo/logo-2.svg';
-import avatar11 from '../../assets/images/avatar/avatar-11.jpg';
-import checkedmark from '../../assets/images/svg/checked-mark.svg';
+import React, { useState, useEffect } from 'react';
+import { doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../../firebase';
 import ProfileCard from '../Cards/ProfileCard';
+import Loader from '../Loader/Loader';
+
 
 const ProfileOverview = () => {
 
-    const profilesData = [
-        {
-            heading: "Sales Manager at Morgan Stanley",
-            subHeading: "Total: 3 years of experience",
-            imageUrl: "https://pbs.twimg.com/profile_images/1631347869687898142/ATwo7QZZ_400x400.jpg"
-        },
-        {
-            heading: "VP of Sales in Numito Fintech",
-            subHeading: "Total: 4 years of experience",
-            imageUrl: "https://cdn.dribbble.com/userupload/3640476/file/still-e81850806ed51cbc833ede438bb7f10c.png"
-        },
-        {
-            heading: "Sales Head at Gemini Capital",
-            subHeading: "Total: 1 year of experience",
-            imageUrl: "https://i.tracxn.com/logo/company/gD0eqGyF_400x400_321d0c6f-1906-4dcc-87f6-361d7d786523.jpg"
-        },
-        {
-            heading: "Junior Salesperson at Aquarich",
-            subHeading: "Total: 6 months of experience",
-            imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-J9cAjb8TYBabKgoJ-Jtr5tfbowqK95i-1w&s"
-        }
-    ];
 
-    const educationData = [
-        {
-            heading: "Indian Institute of Management (IIM) Ahmedabad",
-            subHeading: "Master of Business Administration (MBA) - Marketing & Strategy",
-            imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/IIM%2C_Ahmedabad_Logo.svg/1200px-IIM%2C_Ahmedabad_Logo.svg.png"
-        },
-        {
-            heading: "Indian Institute of Technology (IIT) Bombay",
-            subHeading: "Bachelor of Technology (B.Tech) - Computer Science",
-            imageUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Indian_Institute_of_Technology_Bombay_Logo.svg/1200px-Indian_Institute_of_Technology_Bombay_Logo.svg.png"
-        },
-        {
-            heading: "Delhi Public School, RK Puram",
-            subHeading: "Class 12th - Science Stream (CBSE)",
-            imageUrl: "https://pbs.twimg.com/profile_images/1151384177067134977/s5sAwv6B_400x400.png"
-        },
-        {
-            heading: "Delhi Public School, RK Puram",
-            subHeading: "Class 10th - CBSE Board",
-            imageUrl: "https://pbs.twimg.com/profile_images/1151384177067134977/s5sAwv6B_400x400.png"
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [profileData, setProfileData] = useState(null);
+    const [profilesData, setProfilesData] = useState([]);
+    const [educationData, setEducationData] = useState([]);
+
+
+    // const handlePushToFirestore = async () => {
+    //     try {
+    //         const user = auth.currentUser;
+    //         if (!user) {
+    //             throw new Error('No authenticated user found');
+    //         }
+
+    //         const userDocRef = doc(db, 'users', user.email);
+    //         await updateDoc(userDocRef, {
+    //             experience: profilesData2,
+    //             education: educationData2,
+    //             briefBio: profileData1.briefBio,
+    //             designation: profileData1.designation,
+    //             mobile: profileData1.mobile,
+    //             dateOfBirth: profileData1.dateOfBirth,
+    //             email: profileData1.email,
+    //             location: profileData1.location,
+    //             fullBio: profileData1.fullBio
+    //         });
+
+    //         alert('Data successfully pushed to Firestore!');
+    //     } catch (error) {
+    //         console.error('Error pushing data to Firestore:', error);
+    //         alert('Error pushing data to Firestore: ' + error.message);
+    //     }
+    // };
+
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (!user) {
+            console.log('No authenticated user found');
+            return;
         }
-    ];
+
+        const userDocRef = doc(db, 'users', user.email);
+        getDoc(userDocRef)
+            .then((docSnapshot) => {
+                if (docSnapshot.exists()) {
+                    console.log('Full Document Data:', docSnapshot.data());
+                } else {
+                    console.log('No document found');
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching document:', error);
+            });
+    }, []); // Empty dependency array means this runs once on mount
+
+    useEffect(() => {
+        const user = auth.currentUser;
+        if (!user) {
+            setError('No authenticated user found');
+            setLoading(false);
+            return;
+        }
+
+        // Create real-time listener
+        const userDocRef = doc(db, 'users', user.email);
+        const unsubscribe = onSnapshot(userDocRef,
+            (doc) => {
+                if (doc.exists()) {
+                    const userData = doc.data();
+
+                    // Convert Timestamp to string if it exists
+                    const dateOfBirth = userData.dateOfBirth
+                        ? new Date(userData.dateOfBirth.seconds * 1000).toLocaleDateString()
+                        : '';
+
+                    setProfileData({
+                        briefBio: userData.briefBio || '',
+                        designation: userData.designation || '',
+                        mobile: userData.mobile || '',
+                        dateOfBirth: dateOfBirth,
+                        email: userData.email || user.email,
+                        location: userData.location || '',
+                        fullBio: userData.fullBio || ''
+                    });
+
+                    // Ensure experience and education are arrays, even if empty
+                    setProfilesData(Array.isArray(userData.experience) ? userData.experience : []);
+                    setEducationData(Array.isArray(userData.education) ? userData.education : []);
+                    setLoading(false);
+                } else {
+                    setError('User profile not found');
+                    setLoading(false);
+                }
+            },
+            (error) => {
+                setError('Error fetching user data: ' + error.message);
+                setLoading(false);
+            }
+        );
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, []);
+
+    if (loading) return <Loader />;
+    if (error) return <div>Error: {error}</div>;
+    if (!profileData) return <div>No profile data found</div>;
+
+
+
 
 
 
@@ -61,43 +126,33 @@ const ProfileOverview = () => {
             {/* row */}
             <div className="row">
                 <div className="col-xl-6 col-lg-12 col-md-12 col-12 mb-5">
-                    {/* card */}
                     <div className="card h-100">
-                        {/* card body */}
                         <div className="card-header">
                             <h4 className="mb-0">About Me</h4>
                         </div>
                         <div className="card-body">
-                            {/* card title */}
                             <h5 className="text-uppercase">Bio</h5>
-                            {/* text */}
-                            <p className="mt-2 mb-6">
-                                A results-driven Sales Manager at Morgan Stanley with a decade of experience in financial sales and client relationship management.
-                            </p>
-                            {/* row */}
+                            <p className="mt-2 mb-6">{profileData.briefBio}</p>
                             <div className="row">
                                 <div className="col-12 mb-5">
-                                    {/* text */}
                                     <h5 className="text-uppercase">Position</h5>
-                                    <p className="mb-0">Manager at Morgan Stanley</p>
+                                    <p className="mb-0">{profileData.designation}</p>
                                 </div>
                                 <div className="col-6 mb-5">
-                                    <h5 className="text-uppercase">Phone</h5>
-                                    <p className="mb-0">+91 8899776655</p>
+                                    <h5 className="text-uppercase">Mobile</h5>
+                                    <p className="mb-0">{profileData.mobile}</p>
                                 </div>
                                 <div className="col-6 mb-5">
-                                    <h5 className="text-uppercase">
-                                        Date of Birth
-                                    </h5>
-                                    <p className="mb-0">01.10.1997</p>
+                                    <h5 className="text-uppercase">Date of Birth</h5>
+                                    <p className="mb-0">{new Date(profileData.dateOfBirth).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
                                 </div>
                                 <div className="col-6">
                                     <h5 className="text-uppercase">Email</h5>
-                                    <p className="mb-0">jitu@gmail.com</p>
+                                    <p className="mb-0">{profileData.email}</p>
                                 </div>
                                 <div className="col-6">
                                     <h5 className="text-uppercase">Location</h5>
-                                    <p className="mb-0">Ahmedabad, India</p>
+                                    <p className="mb-0">{profileData.location}</p>
                                 </div>
                             </div>
                         </div>
@@ -105,29 +160,26 @@ const ProfileOverview = () => {
                 </div>
 
 
-                <div className="col-xl-6 col-lg-12 col-md-12 col-12 mb-5" >
-                    {/* card */}
+
+                <div className="col-xl-6 col-lg-12 col-md-12 col-12 mb-5">
                     <div className="card">
                         <div className="card-header">
                             <h4 className="mb-0">About Me</h4>
                         </div>
-                        {/* card body */}
                         <div className="card-body" style={{ minHeight: '396px' }}>
-                            {/* card title */}
                             <div className="d-md-flex justify-content-between align-items-center mb-4">
                                 <p className="mt-2 mb-6">
-                                    As a results-driven Sales Manager at Morgan Stanley, I bring over a decade of experience in financial sales and client relationship management. Throughout my career, I have been dedicated to driving revenue growth, building high-performing teams, and delivering exceptional client solutions.
-                                    <br /> <br />
-                                    With a strong foundation in financial markets, investment strategies, and wealth management, I have successfully guided clients in making informed decisions that align with their financial goals. My expertise extends to sales strategy development, business expansion, and team leadership, ensuring sustained success in a competitive industry.
-                                    <br /> <br /> <br />
-
+                                    {profileData.fullBio.split('\n\n').map((paragraph, index) => (
+                                        <React.Fragment key={index}>
+                                            {paragraph}
+                                            <br /><br />
+                                        </React.Fragment>
+                                    ))}
                                 </p>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
 
                 <div className="col-xl-6 col-lg-12 col-md-12 col-12 mb-5">
                     {/* card */}
@@ -140,6 +192,12 @@ const ProfileOverview = () => {
                     <ProfileCard title="My Education" profiles={educationData} />
                 </div>
 
+                {/* <button
+                    className="btn btn-primary"
+                    onClick={handlePushToFirestore}
+                >
+                    Push to Firebase
+                </button> */}
 
 
 

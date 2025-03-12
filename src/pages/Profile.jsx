@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import '../CSS/main.css';
 
 
@@ -39,7 +41,36 @@ const Profile = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userID, setUserID] = useState('');
+
   useSidebarToggle();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+          const db = getFirestore();
+          const userDoc = await getDoc(doc(db, 'users', user.email));
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setFirstName(userData.firstName || '');
+            setLastName(userData.lastName || '');
+            setUserID(userData.userID || '');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
 
   return (
@@ -66,22 +97,22 @@ const Profile = () => {
                         <div className="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
                           <img src={avatar11} className="avatar-xxl
                 rounded-circle border border-2 " alt="Image" />
-                          <a href="#!" className="position-absolute top-0 right-0 me-2">
+                          {/* <a href="#!" className="position-absolute top-0 right-0 me-2">
                             <img src={checkedmark} alt="Image" className="icon-sm" />
-                          </a>
+                          </a> */}
                         </div>
                         {/* text */}
                         <div className="lh-1">
                           <h2 className="mb-0">
-                            Jitu Chauhan
+                            {firstName} {lastName}
                             <a href="#!" className="text-decoration-none">
                             </a>
                           </h2>
-                          <p className="mb-0 d-block">@imjituchauhan</p>
+                          <p className="mb-0 d-block">@{userID}</p>
                         </div>
                       </div>
                       <div>
-                        <a href="#!" className="btn btn-outline-primary d-none d-md-block">Edit Profile</a>
+                        <a href="/profile-edit" className="btn btn-outline-primary d-none d-md-block cursor-pointer">Edit Profile</a>
                       </div>
                     </div>
                     {/* nav */}

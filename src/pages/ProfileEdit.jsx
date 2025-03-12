@@ -35,12 +35,45 @@ const ProfileEdit = () => {
     const [educations, setEducations] = useState([]);
 
     const addMoreExperience = () => {
-        setExperiences([...experiences, { designation: '', years: '', type: 'Year' }]);
+        setExperiences([{ designation: '', years: '', type: 'Year' }, ...experiences]);
     };
 
     const addMoreEducation = () => {
-        setEducations([...educations, { instituteName: '', educationType: '' }]);
+        setEducations([{ instituteName: '', educationType: '' }, ...educations]);
     };
+
+    // Add these new functions for handling deletions and reordering
+    const deleteExperience = (index) => {
+        setExperiences(experiences.filter((_, i) => i !== index));
+    };
+
+    const deleteEducation = (index) => {
+        setEducations(educations.filter((_, i) => i !== index));
+    };
+
+    const moveExperience = (index, direction) => {
+        if ((direction === 'up' && index === 0) ||
+            (direction === 'down' && index === experiences.length - 1)) return;
+
+        const newExperiences = [...experiences];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        [newExperiences[index], newExperiences[newIndex]] =
+            [newExperiences[newIndex], newExperiences[index]];
+        setExperiences(newExperiences);
+    };
+
+    const moveEducation = (index, direction) => {
+        if ((direction === 'up' && index === 0) ||
+            (direction === 'down' && index === educations.length - 1)) return;
+
+        const newEducations = [...educations];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        [newEducations[index], newEducations[newIndex]] =
+            [newEducations[newIndex], newEducations[index]];
+        setEducations(newEducations);
+    };
+
+
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -370,17 +403,17 @@ const ProfileEdit = () => {
                                                     </div>
                                                     {/* row */}
                                                     <div className="mb-3 row">
-                                                        <label htmlFor="email" className="col-sm-4 col-form-label form-label">UserID</label>
+                                                        <label htmlFor="ID" className="col-sm-4 col-form-label form-label">UserID</label>
                                                         <div className="col-md-8 col-12">
                                                             <input
                                                                 type="text"
-                                                                className="form-control"
+                                                                className="form-control cursor-not-allowed"
                                                                 placeholder="userID"
                                                                 id="userId"
                                                                 value={formData.userId}
                                                                 disabled={true}
                                                             />
-                                                            <p className="small mb-0 mt-3">User ID Can be edited only once </p>
+                                                            <p className="small mb-0 mt-3">User ID cannot be changed </p>
                                                         </div>
                                                     </div>
                                                     {/* row */}
@@ -389,7 +422,7 @@ const ProfileEdit = () => {
                                                         <div className="col-md-8 col-12">
                                                             <input
                                                                 type="email"
-                                                                className="form-control"
+                                                                className="form-control cursor-not-allowed"
                                                                 placeholder="Email"
                                                                 id="email"
                                                                 value={formData.email}
@@ -495,6 +528,32 @@ const ProfileEdit = () => {
                                                 {experiences.map((exp, index) => (
                                                     <div key={index} className="mb-4 experience-data-fields-collection">
 
+                                                        <div className="d-flex justify-content-end gap-2 mb-3">
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-light"
+                                                                onClick={() => moveExperience(index, 'up')}
+                                                                disabled={index === 0}
+                                                            >
+                                                                ↑
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-light"
+                                                                onClick={() => moveExperience(index, 'down')}
+                                                                disabled={index === experiences.length - 1}
+                                                            >
+                                                                ↓
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-danger"
+                                                                onClick={() => deleteExperience(index)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+
                                                         <div className="row mb-3">
                                                             <label className="col-sm-4 col-form-label form-label">Designation</label>
                                                             <div className="col-md-8 col-12">
@@ -577,6 +636,33 @@ const ProfileEdit = () => {
                                             <form onSubmit={handleEducationSubmit}>
                                                 {educations.map((edu, index) => (
                                                     <div key={index} className="mb-4">
+
+                                                        <div className="d-flex justify-content-end gap-2 mb-3">
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-light"
+                                                                onClick={() => moveEducation(index, 'up')}
+                                                                disabled={index === 0}
+                                                            >
+                                                                ↑
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-light"
+                                                                onClick={() => moveEducation(index, 'down')}
+                                                                disabled={index === educations.length - 1}
+                                                            >
+                                                                ↓
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-sm btn-danger"
+                                                                onClick={() => deleteEducation(index)}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+
                                                         <div className="row mb-3">
                                                             <label className="col-sm-4 col-form-label form-label">Institute Name</label>
                                                             <div className="col-md-8 col-12">

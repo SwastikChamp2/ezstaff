@@ -49,7 +49,11 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/email-confirmation" element={<EmailSent />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <HomeDashboard />
+              </ProtectedRoute>
+            } />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={

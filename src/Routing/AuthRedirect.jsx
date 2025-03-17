@@ -9,7 +9,11 @@ const AuthRedirect = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                navigate('/dashboard'); // Redirect if user is already logged in
+                if (!user.emailVerified) {
+                    navigate('/email-confirmation'); // Redirect if user is not verified
+                } else {
+                    navigate('/dashboard'); // Redirect if user is already logged in and verified
+                }
             }
         });
 

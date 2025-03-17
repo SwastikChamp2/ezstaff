@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import logo2 from "../assets/images/brand/logo/logo-2.svg";
-import AuthRedirect from "../Routing/AuthRedirect";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { auth } from "../firebase";
@@ -36,6 +35,13 @@ const Signup = () => {
         setError(null);
 
         const { userId, email, password, confirmPassword } = formData;
+
+        // Add user ID validation
+        const userIdRegex = /^[a-zA-Z0-9_-]+$/;
+        if (!userIdRegex.test(userId)) {
+            setError("User ID can only contain letters, numbers, hyphens (-) and underscores (_) without any space");
+            return;
+        }
 
         if (!userId || !email || !password || !confirmPassword) {
             setError("All fields are required.");
@@ -98,7 +104,7 @@ const Signup = () => {
 
     return (
         <>
-            <AuthRedirect />
+
             <main className="container d-flex flex-column">
                 <div className="row align-items-center justify-content-center g-0 min-vh-100">
                     <div className="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">

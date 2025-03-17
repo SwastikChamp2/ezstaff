@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthRedirect from "../Routing/AuthRedirect";
 import { auth } from "../firebase"; // Import Firebase auth
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged } from "firebase/auth";
 import "../CSS/main.css";
@@ -19,7 +18,7 @@ const Signin = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && user.emailVerified) {
                 navigate('/dashboard');
             }
         });
@@ -53,7 +52,7 @@ const Signin = () => {
 
     return (
         <>
-            <AuthRedirect />
+
             <main className="container d-flex flex-column">
                 <div className="row align-items-center justify-content-center g-0 min-vh-100">
                     <div className="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">

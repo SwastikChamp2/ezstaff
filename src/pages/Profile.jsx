@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import '../CSS/main.css';
@@ -34,6 +35,10 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import useSidebarToggle from '../hooks/SidebarToggle';
 import ProfileOverview from '../components/Profile/ProfileOverview';
 import ProfileFiles from '../components/Profile/ProfileFiles';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
+
+
 
 
 
@@ -44,8 +49,21 @@ const Profile = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userID, setUserID] = useState('');
+  const navigate = useNavigate();
+
+
 
   useSidebarToggle();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate('/signin');
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -71,6 +89,7 @@ const Profile = () => {
 
     fetchUserData();
   }, []);
+
 
 
   return (

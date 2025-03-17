@@ -1,18 +1,34 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/main.css';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import { FaPlus } from "react-icons/fa";
 import avatar11 from '../assets/images/avatar/avatar-11.jpg';
 import Sidebar from '../components/Sidebar/Sidebar';
+import useSidebarToggle from '../hooks/SidebarToggle';
 
 import { getAuth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import Loader from '../components/Loader/Loader';
 
 const ProfileEdit = () => {
+
+    const navigate = useNavigate();
+    useSidebarToggle();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/signin');
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -283,6 +299,7 @@ const ProfileEdit = () => {
 
 
     return (
+
         <>
 
             <Header title="Profile" showDropdown={showDropdown} setShowDropdown={setShowDropdown} />

@@ -27,12 +27,24 @@ import DonutChart from '../components/Chart/DoghnutChart';
 import MultiRingChart from '../components/Chart/MultiRingChart';
 import Sidebar from '../components/Sidebar/Sidebar';
 import useSidebarToggle from '../hooks/SidebarToggle';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 
 const CompanyDashboard = () => {
 
     const navigate = useNavigate();
     const [showDropdown, setShowDropdown] = useState(false);
+
     useSidebarToggle();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/signin');
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
 
 

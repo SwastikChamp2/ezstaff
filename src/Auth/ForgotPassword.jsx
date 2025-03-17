@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthRedirect from "../Routing/AuthRedirect";
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 import '../CSS/main.css';
@@ -31,7 +30,7 @@ const ForgotPassword = () => {
 
     return (
         <>
-            <AuthRedirect />
+
             <main className="container d-flex flex-column">
                 <div className="row align-items-center justify-content-center g-0 min-vh-100">
                     <div className="col-12 col-md-8 col-lg-6 col-xxl-4 py-8 py-xl-0">

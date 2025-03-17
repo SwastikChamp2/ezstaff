@@ -8,10 +8,8 @@ import {
   Route
 } from 'react-router-dom';
 // All pages
-import Home from './pages/Home';
 import Contact from './pages/Contact';
 import About from './pages/About';
-import ProtectedRoute from './Routing/ProtectedRoute';
 
 import { useDocTitle } from './hooks/CustomHook';
 import ScrollToTop from './hooks/ScrollToTop';
@@ -49,33 +47,13 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/email-confirmation" element={<EmailSent />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/" element={
-              <ProtectedRoute>
-                <HomeDashboard />
-              </ProtectedRoute>
-            } />
+            <Route path="/" element={<HomeDashboard />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <HomeDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/company-dashboard" element={
-              <ProtectedRoute>
-                <CompanyDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile-edit" element={
-              <ProtectedRoute>
-                <ProfileEdit />
-              </ProtectedRoute>
-            } />
+            <Route path="/dashboard" element={<HomeDashboard />} />
+            <Route path="/company-dashboard" element={<CompanyDashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile-edit" element={<ProfileEdit />} />
           </Routes>
         </ScrollToTop>
       </Router>

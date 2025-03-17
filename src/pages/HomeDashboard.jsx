@@ -37,6 +37,10 @@ import SunburstChart from '../components/Chart/SunburstChart';
 import Sidebar from '../components/Sidebar/Sidebar';
 import Header from '../components/Header/Header';
 import useSidebarToggle from '../hooks/SidebarToggle';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
+
+
 
 
 
@@ -44,8 +48,18 @@ const HomeDashboard = () => {
 
     const navigate = useNavigate();
 
+
     const [showDropdown, setShowDropdown] = useState(false);
     useSidebarToggle();
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                navigate('/signin');
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
 
     return (

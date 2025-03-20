@@ -47,6 +47,7 @@ import { auth } from '../firebase';
 const HomeDashboard = () => {
 
     const navigate = useNavigate();
+    useSidebarToggle();
 
 
     const [showDropdown, setShowDropdown] = useState(false);

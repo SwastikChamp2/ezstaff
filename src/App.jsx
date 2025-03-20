@@ -21,6 +21,8 @@ import Signin from './Auth/Signin';
 import Signup from './Auth/Signup';
 import ForgotPassword from './Auth/ForgotPassword';
 import EmailSent from './Auth/EmailSent';
+import AddCompany from './pages/addCompany';
+import CompanyPage from './pages/CompanyPage';
 
 
 function App() {
@@ -54,6 +56,8 @@ function App() {
             <Route path="/company-dashboard" element={<CompanyDashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile-edit" element={<ProfileEdit />} />
+            <Route path="/add-company" element={<AddCompany />} />
+            <Route path="/company/:companyId" element={<CompanyPage />} />
           </Routes>
         </ScrollToTop>
       </Router>

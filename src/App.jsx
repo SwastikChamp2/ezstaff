@@ -23,6 +23,7 @@ import ForgotPassword from './Auth/ForgotPassword';
 import EmailSent from './Auth/EmailSent';
 import AddCompany from './pages/addCompany';
 import CompanyPage from './pages/CompanyPage';
+import EditCompany from './pages/edit-company';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Route path="/profile-edit" element={<ProfileEdit />} />
             <Route path="/add-company" element={<AddCompany />} />
             <Route path="/company/:companyId" element={<CompanyPage />} />
+            <Route path="/edit-company/:companyId" element={<EditCompany />} />
           </Routes>
         </ScrollToTop>
       </Router>

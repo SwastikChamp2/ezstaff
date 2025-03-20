@@ -9,6 +9,8 @@ import useSidebarToggle from '../hooks/SidebarToggle';
 import ProfileOverview from '../components/Profile/ProfileOverview';
 import ProfileFiles from '../components/Profile/ProfileFiles';
 import { onAuthStateChanged } from 'firebase/auth';
+import { BsChevronDown } from "react-icons/bs";
+import { RiPencilFill } from "react-icons/ri";
 import { auth } from '../firebase';
 import CompanyOverview from '../components/Company/CompanyOverview';
 
@@ -80,11 +82,8 @@ const CompanyPage = () => {
                                             <div className="d-flex align-items-center">
                                                 {/* avatar */}
                                                 <div className="avatar-xxl avatar-indicators avatar-online me-2 position-relative d-flex justify-content-end align-items-end mt-n10">
-                                                    <img src={"https://d2jhcfgvzjqsa8.cloudfront.net/storage/2022/04/download.png"} className="avatar-xxl
-                rounded-circle border border-2 " alt="Image" />
-                                                    {/* <a href="#!" className="position-absolute top-0 right-0 me-2">
-                            <img src={checkedmark} alt="Image" className="icon-sm" />
-                          </a> */}
+                                                    <img src={"https://d2jhcfgvzjqsa8.cloudfront.net/storage/2022/04/download.png"} className="avatar-xxl rounded-circle border border-2 " alt="Image" />
+                                                    {/* <a href="#!" className="position-absolute top-0 right-0 me-2"> <img src={checkedmark} alt="Image" className="icon-sm" /> </a> */}
                                                 </div>
                                                 {/* text */}
                                                 <div className="lh-1">
@@ -96,9 +95,19 @@ const CompanyPage = () => {
                                                     <p className="mb-0 d-block">@{companyID}</p>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <a href="/company-edit" className="btn btn-outline-primary d-none d-md-block cursor-pointer">Edit Company</a>
+
+                                            <div className="d-flex justify-content-end align-items-center">
+                                                <a href="#!" className="btn btn-outline-dark me-2 cursor-pointer d-flex align-items-center">
+                                                    Create New
+                                                    <BsChevronDown className=" fs-4 ml-2" />
+                                                </a>
+                                                <a onClick={() => navigate(`/edit-company/${companyID}`)} className="text-dark cursor-pointer ml-2">
+                                                    <RiPencilFill className="text-dark fs-4" />
+                                                </a>
                                             </div>
+
+
+
                                         </div>
                                         {/* nav */}
                                         <ul className="nav nav-lt-tab px-4" id="pills-tab" role="tablist">

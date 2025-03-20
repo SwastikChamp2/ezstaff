@@ -140,7 +140,7 @@ const AddCompany = () => {
 
             // Success - redirect or show message
             alert('Company added successfully!');
-            navigate('/companies'); // Adjust this to your companies list page
+            navigate(`/company/${formData.companyId}`);
         } catch (error) {
             console.error('Error adding company:', error);
             setErrorMessage('Error adding company: ' + error.message);

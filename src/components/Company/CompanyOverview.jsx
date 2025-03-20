@@ -74,7 +74,7 @@ const CompanyOverview = ({ companyId }) => {
                                 </div>
                                 <div className="col-6 mb-5">
                                     <h5 className="text-uppercase">Date of Incorporation</h5>
-                                    <p className="mb-0">{new Date(companyData.dateOfIncorporation).toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+                                    <p className="mb-0">{new Date(companyData.dateOfIncorporation).toLocaleDateString('en-GB')}</p>
                                 </div>
                                 <div className="col-6">
                                     <h5 className="text-uppercase">Email</h5>
